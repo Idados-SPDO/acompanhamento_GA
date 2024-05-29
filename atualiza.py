@@ -10,7 +10,7 @@ def atualizar_base(base, consulta):
                     if base.loc[base['Solicitação'] == solicitacao, col].values[0] != row[col]:
                         base_atualizada.loc[base_atualizada['Solicitação'] == solicitacao, col] = row[col]
         else:
-            base_atualizada = base_atualizada.append(row, ignore_index=True)
+            base_atualizada = pd.concat([base_atualizada, row.to_frame().T], ignore_index=True)
     
     return base_atualizada
 
