@@ -39,9 +39,6 @@ def main():
             'Solicitado por': 'Solicitante'
         })
 
-        consulta['Data Solicitação'] = pd.to_datetime(consulta['Data Solicitação'])
-        consulta['Data Solicitação'] = consulta['Data Solicitação'].apply(lambda x: x.date() if pd.notnull(x) else x)
-
         consulta_construcao = consulta[consulta['Área'].str.contains('Construção', case=False, na=False)]
         consulta_industria = consulta[consulta['Área'].str.contains('Indústria', case=False, na=False)]
 
@@ -53,13 +50,6 @@ def main():
 
         construcao_atualizada['Status da Demanda'] = construcao_atualizada.apply(lambda row: 'Finalizada' if row['Status do GA'] in ['Concluída', 'Cancelada'] else row['Status da Demanda'], axis=1)
         industria_atualizada['Status da Demanda'] = industria_atualizada.apply(lambda row: 'Finalizada' if row['Status do GA'] in ['Concluída', 'Cancelada'] else row['Status da Demanda'], axis=1)
-
-        if not construcao_atualizada['Data Retorno'].isnull().all():
-        construcao_atualizada['Data Retorno'] = pd.to_datetime(construcao_atualizada['Data Retorno']).dt.date
-
-        if not industria_atualizada['Data Retorno'].isnull().all():
-        industria_atualizada['Data Retorno'] = pd.to_datetime(industria_atualizada['Data Retorno']).dt.date
-
 
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
