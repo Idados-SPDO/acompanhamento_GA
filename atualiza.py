@@ -1,3 +1,4 @@
+import pandas as pd
 
 def atualizar_base(base, consulta):
     base_atualizada = base.copy()
