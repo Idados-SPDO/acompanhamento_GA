@@ -40,7 +40,7 @@ def main():
         })
 
         consulta['Data Solicitação'] = pd.to_datetime(consulta['Data Solicitação'])
-        consulta['Data Solicitação'] = consulta['Data Solicitação'].dt.date
+        consulta['Data Solicitação'] = consulta['Data Solicitação'].apply(lambda x: x.date() if pd.notnull(x) else x)
 
         consulta_construcao = consulta[consulta['Área'].str.contains('Construção', case=False, na=False)]
         consulta_industria = consulta[consulta['Área'].str.contains('Indústria', case=False, na=False)]
